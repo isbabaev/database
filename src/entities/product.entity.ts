@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { AccountEntity } from './account.entity';
 
-@Entity()
+@Entity('products')
 export class ProductEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -12,7 +12,7 @@ export class ProductEntity {
   @Column()
   description: string;
 
-  @Column()
+  @Column("text", {array: true})
   photoUrls: string[];
 
   @Column()
