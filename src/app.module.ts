@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
 import 'reflect-metadata';
 
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ControllersModule } from './api/controllers/controllers.module';
+import { ApiModule } from './api/api.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(),
-    ControllersModule,
+    ApiModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {
 }

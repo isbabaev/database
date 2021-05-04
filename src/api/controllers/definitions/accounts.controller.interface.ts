@@ -1,6 +1,6 @@
 import { CreateAccountResult } from '../../../database/interfaces/account.interface';
 import { CreateAccountDto } from '../../dto/account.dto';
 
-export interface AccountControllerInterface {
+export interface IAccountsController {
   createAccount(createAccountData: CreateAccountDto): Promise<CreateAccountResult>;
 }

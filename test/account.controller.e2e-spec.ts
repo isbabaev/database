@@ -1,29 +1,47 @@
-import { AccountController } from '../src/api/controllers/implementations/account.controller';
 import connection from './connection';
 import { Test } from '@nestjs/testing';
-import { ControllersModule } from '../src/api/controllers/controllers.module';
+import { ApiModule } from '../src/api/api.module';
+import { INestApplication } from '@nestjs/common';
+import * as request from 'supertest';
+import { CreateAccountDto } from '../src/api/dto/account.dto';
+import { CreateAccountResult } from '../src/database/interfaces/account.interface';
+import { AppModule } from '../src/app.module';
+import { getConnection } from 'typeorm';
 
 describe('AccountControllerE2eTest', () => {
-  let accountController: AccountController;
+  let app: INestApplication;
 
   beforeAll(async () => {
-    await connection.create();
-
-    const module = await Test.createTestingModule({
-      imports: [ControllersModule],
+    // const connection = getConnection();
+    const moduleRef = await Test.createTestingModule({
+      imports: [
+        AppModule,
+      ],
     }).compile();
 
-    accountController = module.get<AccountController>(AccountController);
-  });
-
-  afterAll(async () => {
-    await connection.close();
+    app = moduleRef.createNestApplication();
+    await app.init();
   });
 
   beforeEach(async () => {
-    await connection.clear();
+    // await connection.clear();
   });
 
-  it('should create account', () => {
+  it('', () =>{});
+
+  it('/POST', (done) => {
+    return request(app.getHttpServer())
+      .post('')
+      .send({
+        firstName: 'Test',
+        lastName: 'Test',
+        email: 'test@mail.com',
+        password: 'test',
+      } as CreateAccountDto)
+      .then((response) => {
+        const body = response.body as CreateAccountResult;
+        expect(typeof body.id).toBe('number');
+        done();
+      })
   });
 });

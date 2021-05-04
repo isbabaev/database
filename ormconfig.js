@@ -1,9 +1,11 @@
-// require('dotenv/config');
-
 const database = {
-  development: "dev-online-shop",
-  production: 'prod-online-shop',
+  development: 'dev-online-shop',
   test: 'test-online-shop'
+}
+
+const rootDir = {
+  development: 'dist',
+  test: 'src'
 }
 
 module.exports = {
@@ -13,7 +15,6 @@ module.exports = {
   username: 'postgres',
   password: '123456',
   database: database[process.env.NODE_ENV],
-  entities: ['dist/entities/**/*.js'],
-  migrations: ['dist/migrations/**/*.js'],
-  subscribers: ['dist/subscribers/**/*.js'],
+  entities: [rootDir[process.env.NODE_ENV] + '/**/entities/*{.ts,.js}'],
+  migrations: [rootDir[process.env.NODE_ENV] + '/**/migrations/**/*{.ts,.js}'],
 };
