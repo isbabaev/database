@@ -1,36 +1,47 @@
-import connection from './connection';
 import { Test } from '@nestjs/testing';
-import { ApiModule } from '../src/api/api.module';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { CreateAccountDto } from '../src/api/dto/account.dto';
-import { CreateAccountResult } from '../src/database/interfaces/account.interface';
 import { AppModule } from '../src/app.module';
-import { getConnection } from 'typeorm';
+import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
+require('dotenv').config();
 
 describe('AccountControllerE2eTest', () => {
   let app: INestApplication;
+  let client: ClientProxy;
 
   beforeAll(async () => {
-    // const connection = getConnection();
     const moduleRef = await Test.createTestingModule({
       imports: [
         AppModule,
+        ClientsModule.register([
+          {
+            name: 'DATABASE_SERVICE',
+            transport: Transport.RMQ,
+            options: {
+              urls: [process.env.RABBITMQ_URL],
+              queue: process.env.QUEUE_NAME,
+              queueOptions: {
+                durable: false,
+              },
+            },
+          },
+        ]),
       ],
     }).compile();
 
     app = moduleRef.createNestApplication();
     await app.init();
+
+    client = app.get('DATABASE_SERVICE');
+    await client.connect();
   });
 
-  beforeEach(async () => {
-    // await connection.clear();
+  afterAll(async () => {
+    await app.close();
+    client.close();
   });
 
-  it('', () =>{});
-
-  it('/POST', (done) => {
-    return request(app.getHttpServer())
+  it('should create account', async () => {
+    /*return request(app.getHttpServer())
       .post('')
       .send({
         firstName: 'Test',
@@ -42,6 +53,19 @@ describe('AccountControllerE2eTest', () => {
         const body = response.body as CreateAccountResult;
         expect(typeof body.id).toBe('number');
         done();
-      })
+      });*/
+
+    const res = await client.send('hello', {msg: 'hello!'}).toPromise();
+
+    expect(res).toBeDefined();
+
+    /*const response = await client.send({ 'cmd': 'create' }, {
+      firstName: 'Test',
+      lastName: 'Test',
+      email: 'test@mail.com',
+      password: 'test',
+    }).toPromise();
+
+    console.log(response);*/
   });
 });
