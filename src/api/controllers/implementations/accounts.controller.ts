@@ -1,4 +1,4 @@
-import { Controller, Inject, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Inject } from '@nestjs/common';
 import { IAccountsController } from '../definitions/accounts.controller.interface';
 import { CreateAccountResult } from '../../../database/interfaces/account.interface';
 import { CreateAccountDto } from '../../dto/account.dto';

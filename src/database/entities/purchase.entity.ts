@@ -1,4 +1,13 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+  JoinColumn,
+} from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { AccountEntity } from './account.entity';
 
@@ -11,8 +20,15 @@ export class PurchaseEntity {
   products: ProductEntity[];
 
   @ManyToOne(() => AccountEntity)
+  @JoinColumn({name: 'buyer_id'})
   buyer: AccountEntity;
 
-  @Column()
+  @Column({name: 'purchase_date'})
   purchaseDate: Date;
+
+  @CreateDateColumn({name: 'created_at'})
+  createdAt: Date;
+
+  @UpdateDateColumn({name: 'updated_at'})
+  updatedAt: Date;
 }

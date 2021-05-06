@@ -18,8 +18,6 @@ export class AccountService implements IAccountService {
   async create(createData: CreateAccount): Promise<CreateAccountResult> {
     const account = await this.accountEntityRepository.save(createData);
 
-    return {
-      id: account.id
-    }
+    return { id: account.id }
   }
 }

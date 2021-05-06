@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ProductEntity } from './product.entity';
 
 @Entity('accounts')
@@ -6,13 +6,13 @@ export class AccountEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({name: 'first_name'})
   firstName: string;
 
-  @Column()
+  @Column({name: 'last_name'})
   lastName: string;
 
-  @Column()
+  @Column({unique: true})
   email: string;
 
   @Column()
@@ -20,4 +20,10 @@ export class AccountEntity {
 
   @OneToMany(() => ProductEntity, product => product.id)
   products: ProductEntity[];
+
+  @CreateDateColumn({name: 'created_at'})
+  createdAt: Date;
+
+  @UpdateDateColumn({name: 'updated_at'})
+  updatedAt: Date;
 }
