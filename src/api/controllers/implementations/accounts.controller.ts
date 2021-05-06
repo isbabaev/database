@@ -3,14 +3,14 @@ import { IAccountsController } from '../definitions/accounts.controller.interfac
 import { CreateAccountResult } from '../../../database/interfaces/account.interface';
 import { CreateAccountDto } from '../../dto/account.dto';
 import {
-  AccountServiceSymbol,
+  IAccountServiceSymbol,
   IAccountService,
 } from '../../../database/services/definitions/account.service.interface';
 import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
 export class AccountsController implements IAccountsController {
-  constructor(@Inject(AccountServiceSymbol)
+  constructor(@Inject(IAccountServiceSymbol)
               private readonly accountService: IAccountService) {
   }
 

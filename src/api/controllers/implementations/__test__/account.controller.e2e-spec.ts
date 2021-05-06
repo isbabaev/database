@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../../../app.module';
 import { ClientProxy, ClientsModule, Transport } from '@nestjs/microservices';
 require('dotenv').config();
 
@@ -29,6 +29,7 @@ describe('AccountControllerE2eTest', () => {
     }).compile();
 
     app = moduleRef.createNestApplication();
+
     await app.init();
 
     client = app.get('DATABASE_SERVICE');
@@ -41,31 +42,11 @@ describe('AccountControllerE2eTest', () => {
   });
 
   it('should create account', async () => {
-    /*return request(app.getHttpServer())
-      .post('')
-      .send({
-        firstName: 'Test',
-        lastName: 'Test',
-        email: 'test@mail.com',
-        password: 'test',
-      } as CreateAccountDto)
-      .then((response) => {
-        const body = response.body as CreateAccountResult;
-        expect(typeof body.id).toBe('number');
-        done();
-      });*/
-
-    const res = await client.send('hello', {msg: 'hello!'}).toPromise();
-
-    expect(res).toBeDefined();
-
-    /*const response = await client.send({ 'cmd': 'create' }, {
+    await client.send('create-account', {
       firstName: 'Test',
       lastName: 'Test',
-      email: 'test@mail.com',
+      email: 'test4@mail.com',
       password: 'test',
     }).toPromise();
-
-    console.log(response);*/
   });
 });

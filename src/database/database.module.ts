@@ -4,11 +4,11 @@ import { AccountEntity } from './entities/account.entity';
 import { ProductEntity } from './entities/product.entity';
 import { PurchaseEntity } from './entities/purchase.entity';
 import { AccountService } from './services/implementations/account.service';
-import { AccountServiceSymbol } from './services/definitions/account.service.interface';
+import { IAccountServiceSymbol } from './services/definitions/account.service.interface';
 
 const providers: ClassProvider[] = [
   {
-    provide: AccountServiceSymbol,
+    provide: IAccountServiceSymbol,
     useClass: AccountService,
   },
 ];

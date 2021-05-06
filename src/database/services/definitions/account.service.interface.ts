@@ -1,7 +1,7 @@
 import { AccountEntity } from '../../entities/account.entity';
 import { CreateAccount, CreateAccountResult } from '../../interfaces/account.interface';
 
-export const AccountServiceSymbol = Symbol('IAccountService');
+export const IAccountServiceSymbol = Symbol('IAccountService');
 
 export interface IAccountService {
   findOneById(id: number): Promise<AccountEntity>;
