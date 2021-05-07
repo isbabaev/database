@@ -36,6 +36,14 @@ describe('AccountServiceTest', () => {
     });
   });
 
+  describe('findOneByEmail', () => {
+    it('should return account', async () => {
+      const account = await accountService.findOneByEmail('test@test.com');
+
+      expect(account).toBeInstanceOf(AccountEntity);
+    });
+  });
+
   describe('create', () => {
     it('should return id', async () => {
       const account = await accountService.create(new AccountEntity());

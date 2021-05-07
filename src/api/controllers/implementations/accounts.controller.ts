@@ -1,12 +1,13 @@
 import { Controller, Inject } from '@nestjs/common';
-import { IAccountsController } from '../definitions/accounts.controller.interface';
+import { IAccountsController } from '../definitions/accounts.controller';
 import { CreateAccountResult } from '../../../database/interfaces/account.interface';
 import { CreateAccountDto } from '../../dto/account.dto';
 import {
   IAccountServiceSymbol,
   IAccountService,
-} from '../../../database/services/definitions/account.service.interface';
+} from '../../../database/services/definitions/account.service';
 import { MessagePattern } from '@nestjs/microservices';
+import { AccountEntity } from '../../../database/entities/account.entity';
 
 @Controller()
 export class AccountsController implements IAccountsController {
@@ -17,5 +18,10 @@ export class AccountsController implements IAccountsController {
   @MessagePattern('create-account')
   createAccount(createAccountData: CreateAccountDto): Promise<CreateAccountResult> {
     return this.accountService.create(createAccountData);
+  }
+
+  @MessagePattern('find-account-by-email')
+  findAccountByEmail(email: string): Promise<AccountEntity> {
+    return this.accountService.findOneByEmail(email);
   }
 }
