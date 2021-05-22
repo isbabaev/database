@@ -1,6 +1,5 @@
 import { Controller, Inject } from '@nestjs/common';
 import { IAccountsController } from '../definitions/accounts.controller';
-import { CreateAccountResult } from '../../../database/interfaces/account.interface';
 import { CreateAccountDto } from '../../dto/account.dto';
 import {
   IAccountServiceSymbol,
@@ -16,7 +15,7 @@ export class AccountsController implements IAccountsController {
   }
 
   @MessagePattern('create-account')
-  createAccount(createAccountData: CreateAccountDto): Promise<CreateAccountResult> {
+  createAccount(createAccountData: CreateAccountDto): Promise<void> {
     return this.accountService.create(createAccountData);
   }
 

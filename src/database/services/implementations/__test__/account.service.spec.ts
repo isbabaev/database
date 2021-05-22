@@ -14,17 +14,6 @@ describe('AccountServiceTest', () => {
 
     const accountEntityRepository = getRepository<AccountEntity>(AccountEntity);
 
-    jest.spyOn(accountEntityRepository, 'findOne')
-      .mockImplementation(() => Promise.resolve(new AccountEntity()));
-
-    jest.spyOn(accountEntityRepository, 'save')
-      .mockImplementation(() => {
-        const account = new AccountEntity();
-        account.id = 1;
-
-        return Promise.resolve(account);
-      });
-
     accountService = new AccountService(accountEntityRepository);
   });
 

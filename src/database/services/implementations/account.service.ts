@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from '../../entities/account.entity';
 import { Repository } from 'typeorm';
 import { IAccountService } from '../definitions/account.service';
-import { CreateAccount, CreateAccountResult } from '../../interfaces/account.interface';
+import { CreateAccount } from '../../interfaces/account.interface';
 
 @Injectable()
 export class AccountService implements IAccountService {
@@ -19,9 +19,7 @@ export class AccountService implements IAccountService {
     return this.accountEntityRepository.findOne({email});
   }
 
-  async create(createData: CreateAccount): Promise<CreateAccountResult> {
-    const account = await this.accountEntityRepository.save(createData);
-
-    return { id: account.id }
+  async create(createData: CreateAccount): Promise<void> {
+    await this.accountEntityRepository.save(createData);
   }
 }

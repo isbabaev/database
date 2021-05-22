@@ -4,7 +4,3 @@ export interface CreateAccount {
   email: string;
   password: string;
 }
-
-export interface CreateAccountResult {
-  id: number;
-}
