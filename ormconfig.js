@@ -8,18 +8,15 @@ const rootDir = {
   test: 'src'
 }
 
-const currentDatabase = database[process.env.NODE_ENV] || database.development;
-const currentRootDir = rootDir[process.env.NODE_ENV] || rootDir.development;
-
 module.exports = {
   type: 'postgres',
   host: 'localhost',
   port: 5432,
   username: 'postgres',
   password: '123456',
-  database: currentDatabase,
-  entities: [currentRootDir + '/**/entities/*{.ts,.js}'],
-  migrations: [currentRootDir + '/**/migrations/**/*{.ts,.js}'],
+  database: database[process.env.NODE_ENV],
+  entities: [rootDir[process.env.NODE_ENV] + '/**/entities/*{.ts,.js}'],
+  migrations: [rootDir[process.env.NODE_ENV] + '/**/migrations/**/*{.ts,.js}'],
   cli: {
     migrationsDir: 'src/database/migrations'
   }
