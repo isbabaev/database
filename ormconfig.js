@@ -1,12 +1,42 @@
-const database = {
-  development: 'dev-online-shop',
-  test: 'test-online-shop'
+class Config {
+  #database;
+  #rootDir;
+
+  #migrationNodeEnv;
+  #nodeEnv;
+
+  constructor() {
+    this.#database = {
+      development: 'dev-online-shop',
+      test: 'test-online-shop',
+    };
+    this.#rootDir = {
+      development: 'dist',
+      test: 'src',
+    };
+
+    this.#migrationNodeEnv = process.env.MIGRATION_NODE_ENV;
+    this.#nodeEnv = process.env.NODE_ENV;
+  }
+
+  get database() {
+    if (this.#migrationNodeEnv) {
+      return this.#database[this.#migrationNodeEnv];
+    } else {
+      return this.#database[this.#nodeEnv];
+    }
+  }
+
+  get rootDir() {
+    if (this.#migrationNodeEnv) {
+      return this.#rootDir.development;
+    } else {
+      return this.#rootDir[this.#nodeEnv];
+    }
+  }
 }
 
-const rootDir = {
-  development: 'dist',
-  test: 'src'
-}
+const config = new Config();
 
 module.exports = {
   type: 'postgres',
@@ -14,10 +44,10 @@ module.exports = {
   port: 5432,
   username: 'postgres',
   password: '123456',
-  database: database[process.env.NODE_ENV],
-  entities: [rootDir[process.env.NODE_ENV] + '/**/entities/*{.ts,.js}'],
-  migrations: [rootDir[process.env.NODE_ENV] + '/**/migrations/**/*{.ts,.js}'],
+  database: config.database,
+  entities: [config.rootDir + '/**/entities/*{.ts,.js}'],
+  migrations: [config.rootDir + '/**/migrations/**/*{.ts,.js}'],
   cli: {
-    migrationsDir: 'src/database/migrations'
-  }
+    migrationsDir: 'src/database/migrations',
+  },
 };
