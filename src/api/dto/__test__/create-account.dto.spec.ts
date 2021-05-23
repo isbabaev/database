@@ -1,7 +1,7 @@
 import { validate } from 'class-validator';
 import { CreateAccountDto } from '../create-account.dto';
 
-describe('CreateAccountCommandTest', () => {
+describe('CreateAccountDtoTest', () => {
   test('validate should not return any errors', async () => {
     const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
