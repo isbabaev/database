@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { DatabaseModule } from '../../database.module';
-import { getRepository, Repository } from 'typeorm';
+import { getConnection, getRepository, Repository } from 'typeorm';
 import { AccountEntity } from '../../entities/account.entity';
 import { LoadAccountByEmailService } from '../load-account-by-email.service';
 
@@ -17,12 +17,13 @@ describe('LoadAccountByEmailServiceTest', () => {
     loadAccountByEmailService = new LoadAccountByEmailService(accountRepository);
   });
 
-  beforeEach(() => {
-    accountRepository.delete({});
+  beforeEach(async () => {
+    await accountRepository.delete({});
   });
 
-  afterAll(() => {
-    accountRepository.delete({});
+  afterAll(async () => {
+    await accountRepository.delete({});
+    await getConnection().close();
   });
 
   test('should return account', async () => {

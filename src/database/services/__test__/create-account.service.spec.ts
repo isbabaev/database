@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { DatabaseModule } from '../../database.module';
-import { getRepository, Repository } from 'typeorm';
+import { getConnection, getRepository, Repository } from 'typeorm';
 import { AccountEntity } from '../../entities/account.entity';
 import { CreateAccountService } from '../create-account.service';
 
@@ -17,12 +17,13 @@ describe('CreateAccountServiceTest', () => {
     createAccountService = new CreateAccountService(accountRepository);
   });
 
-  beforeEach(() => {
-    accountRepository.delete({});
+  beforeEach(async () => {
+    await accountRepository.delete({});
   });
 
-  afterAll(() => {
-    accountRepository.delete({});
+  afterAll(async () => {
+    await accountRepository.delete({});
+    await getConnection().close();
   });
 
   test('should create account', async () => {

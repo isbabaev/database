@@ -3,19 +3,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AccountEntity } from './entities/account.entity';
 import { ProductEntity } from './entities/product.entity';
 import { PurchaseEntity } from './entities/purchase.entity';
-import { AccountService } from './services/implementations/account.service';
-import { AccountServiceSymbol } from './services/definitions/account.service';
 import { CreateAccountService } from './services/create-account.service';
-import { CreateAccountPortSymbol } from '../api/ports/out/create-account.port';
+import { CreateAccountUseCaseSymbol } from './ports/in/create-account.use-case';
+import { LoadAccountByEmailUseCaseSymbol } from './ports/in/load-account-by-email.use-case';
+import { LoadAccountByEmailService } from './services/load-account-by-email.service';
+import { LoadAccountByIdUseCaseSymbol } from './ports/in/load-account-by-id.use-case';
+import { LoadAccountByIdService } from './services/load-account-by-id.service';
 
 const providers: ClassProvider[] = [
   {
-    provide: AccountServiceSymbol,
-    useClass: AccountService,
+    provide: CreateAccountUseCaseSymbol,
+    useClass: CreateAccountService,
   },
   {
-    provide: CreateAccountPortSymbol,
-    useClass: CreateAccountService,
+    provide: LoadAccountByEmailUseCaseSymbol,
+    useClass: LoadAccountByEmailService,
+  },
+  {
+    provide: LoadAccountByIdUseCaseSymbol,
+    useClass: LoadAccountByIdService,
   },
 ];
 
