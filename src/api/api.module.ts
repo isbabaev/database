@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AccountsController } from './controllers/implementations/accounts.controller';
 import { DatabaseModule } from '../database/database.module';
+import { CreateAccountController } from './controllers/create-account.controller';
+import { LoadAccountByEmailController } from './controllers/load-account-by-email.controller';
 
 @Module({
   imports: [
     DatabaseModule,
   ],
   controllers: [
-    AccountsController,
+    CreateAccountController,
+    LoadAccountByEmailController,
   ],
 })
 export class ApiModule {

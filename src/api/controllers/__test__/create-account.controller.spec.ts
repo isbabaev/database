@@ -1,7 +1,7 @@
 import { capture, instance, mock } from 'ts-mockito';
 import { CreateAccountController } from '../create-account.controller';
-import { ICreateAccountUseCase } from '../../ports/out/create-account.port';
 import { CreateAccountDto } from '../../dto/create-account.dto';
+import { ICreateAccountUseCase } from '../../../database/ports/in/create-account.use-case';
 
 describe('CreateAccountControllerTest', () => {
   let createAccountController: CreateAccountController;
