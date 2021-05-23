@@ -8,7 +8,8 @@ export class LoadAccountByIdService implements ILoadAccountByIdUseCase {
               private readonly accountRepository: Repository<AccountEntity>) {
   }
 
-  loadAccount(id: string): Promise<AccountEntity> {
-    return this.accountRepository.findOne(id);
+  async loadAccount(id: string): Promise<AccountEntity | null> {
+    const account = await this.accountRepository.findOne(id);
+    return account || null;
   }
 }

@@ -37,4 +37,10 @@ describe('LoadAccountByEmailControllerTest', () => {
 
     expect(account).toEqual(newAccount);
   });
+
+  test('should return null when method loadAccount of loadAccountByEmailUseCase returns null', async () => {
+    const account = await loadAccountByEmailController.loadAccount({email: ''});
+
+    expect(account).toBeNull();
+  });
 })

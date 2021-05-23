@@ -37,4 +37,10 @@ describe('LoadAccountByIdControllerTest', () => {
 
     expect(account).toEqual(newAccount);
   });
+
+  test('should return null when method loadAccount of loadAccountByIdUseCase returns null', async () => {
+    const account = await loadAccountByIdController.loadAccount({id: ''});
+
+    expect(account).toBeNull();
+  });
 });

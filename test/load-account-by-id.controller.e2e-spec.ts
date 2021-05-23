@@ -57,7 +57,7 @@ describe('LoadAccountByIdControllerE2eTest', () => {
     await accountRepository.insert(newAccount);
 
     const account: AccountEntity = await clientProxy
-      .send('load-account-by-email', { id: newAccount.id }).toPromise();
+      .send('load-account-by-id', { id: newAccount.id }).toPromise();
     const mappedAccount: AccountEntity = {
       ...account,
       createdAt: new Date(account.createdAt),
@@ -65,5 +65,11 @@ describe('LoadAccountByIdControllerE2eTest', () => {
     };
 
     expect(mappedAccount).toEqual(newAccount);
+  });
+
+  test('should return null when account not found', async () => {
+    const account: AccountEntity = await clientProxy.send('load-account-by-id', { id: '' }).toPromise();
+
+    expect(account).toBeNull();
   });
 });

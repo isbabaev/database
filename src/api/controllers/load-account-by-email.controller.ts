@@ -14,7 +14,7 @@ export class LoadAccountByEmailController {
   }
 
   @MessagePattern('load-account-by-email')
-  loadAccount(loadAccountData: LoadAccountByEmailDto): Promise<AccountEntity> {
+  loadAccount(loadAccountData: LoadAccountByEmailDto): Promise<AccountEntity | null> {
     return this.loadAccountByEmailUseCase.loadAccount(loadAccountData.email);
   }
 }

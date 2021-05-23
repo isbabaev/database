@@ -8,7 +8,8 @@ export class LoadAccountByEmailService implements ILoadAccountByEmailUseCase {
               private readonly accountRepository: Repository<AccountEntity>) {
   }
 
-  loadAccount(email: string): Promise<AccountEntity> {
-    return this.accountRepository.findOne({email});
+  async loadAccount(email: string): Promise<AccountEntity | null> {
+    const account = await this.accountRepository.findOne({email});
+    return account || null;
   }
 }

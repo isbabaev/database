@@ -36,4 +36,12 @@ describe('LoadAccountByIdServiceTest', () => {
 
     expect(account).toEqual(newAccount);
   });
+
+  test('should return null when method findOne of accountRepository returns undefined', async () => {
+    when(accountRepository.findOne(anything())).thenResolve(undefined);
+
+    const account = await loadAccountByIdService.loadAccount('');
+
+    expect(account).toBeNull();
+  });
 });

@@ -14,7 +14,7 @@ export class LoadAccountByIdController {
   }
 
   @MessagePattern('load-account-by-id')
-  loadAccount(loadAccountData: LoadAccountByIdDto): Promise<AccountEntity> {
+  loadAccount(loadAccountData: LoadAccountByIdDto): Promise<AccountEntity | null> {
     return this.loadAccountByIdUseCase.loadAccount(loadAccountData.id);
   }
 }

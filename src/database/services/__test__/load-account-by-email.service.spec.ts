@@ -36,4 +36,12 @@ describe('LoadAccountByEmailServiceTest', () => {
 
     expect(account).toEqual(newAccount);
   });
+
+  test('should return null when method findOne of accountRepository returns undefined', async () => {
+    when(accountRepository.findOne(anything())).thenResolve(undefined);
+
+    const account = await loadAccountByEmailService.loadAccount('');
+
+    expect(account).toBeNull();
+  });
 })

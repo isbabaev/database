@@ -66,4 +66,11 @@ describe('LoadAccountByEmailControllerE2eTest', () => {
 
     expect(mappedAccount).toEqual(newAccount);
   });
+
+  test('should return null when account not found', async () => {
+    const account: AccountEntity = await clientProxy
+      .send('load-account-by-email', { email: '' }).toPromise();
+
+    expect(account).toBeNull();
+  });
 });
