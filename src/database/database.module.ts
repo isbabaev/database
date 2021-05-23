@@ -5,8 +5,8 @@ import { ProductEntity } from './entities/product.entity';
 import { PurchaseEntity } from './entities/purchase.entity';
 import { AccountService } from './services/implementations/account.service';
 import { AccountServiceSymbol } from './services/definitions/account.service';
-import { CreateAccountUseCaseSymbol } from './ports/in/create-account.use-case';
 import { CreateAccountService } from './services/create-account.service';
+import { CreateAccountPortSymbol } from '../api/ports/out/create-account.port';
 
 const providers: ClassProvider[] = [
   {
@@ -14,7 +14,7 @@ const providers: ClassProvider[] = [
     useClass: AccountService,
   },
   {
-    provide: CreateAccountUseCaseSymbol,
+    provide: CreateAccountPortSymbol,
     useClass: CreateAccountService,
   },
 ];

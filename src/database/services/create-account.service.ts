@@ -1,8 +1,8 @@
-import { ICreateAccountUseCase } from '../ports/in/create-account.use-case';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AccountEntity } from '../entities/account.entity';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { ICreateAccountUseCase } from '../../api/ports/out/create-account.port';
 
 @Injectable()
 export class CreateAccountService implements ICreateAccountUseCase {
