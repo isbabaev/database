@@ -1,20 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { MicroserviceOptions } from '@nestjs/microservices';
 import { ValidationPipe } from '@nestjs/common';
-require('dotenv').config();
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { appConnectionOptionsFactory } from './app-connection-options.factory';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
-    transport: Transport.RMQ,
-    options: {
-      urls: [process.env.RABBITMQ_URL],
-      queue: process.env.QUEUE_NAME,
-      queueOptions: {
-        durable: false
-      },
-    },
-  });
+  const appContext = await NestFactory.createApplicationContext(ConfigModule.forRoot());
+  const configService = appContext.get(ConfigService);
+
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    appConnectionOptionsFactory(configService)
+  );
   app.useGlobalPipes(new ValidationPipe());
   app.listen(() => console.log('Microservice is listening'));
 }

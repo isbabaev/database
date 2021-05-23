@@ -1,4 +1,6 @@
 import { IsDate, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import "reflect-metadata";
 
 export class CreateAccountDto {
   @IsString()
@@ -17,9 +19,11 @@ export class CreateAccountDto {
   password: string;
 
   @IsDate()
+  @Type(() => Date)
   createdAt: Date;
 
   @IsDate()
+  @Type(() => Date)
   updatedAt: Date;
 
   constructor(id: string,
