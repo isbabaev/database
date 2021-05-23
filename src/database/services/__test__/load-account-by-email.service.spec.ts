@@ -1,29 +1,23 @@
-import { Test } from '@nestjs/testing';
-import { DatabaseModule } from '../../database.module';
-import { getConnection, getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AccountEntity } from '../../entities/account.entity';
 import { LoadAccountByEmailService } from '../load-account-by-email.service';
+import { anything, instance, mock, verify, when } from 'ts-mockito';
 
 describe('LoadAccountByEmailServiceTest', () => {
   let loadAccountByEmailService: LoadAccountByEmailService;
   let accountRepository: Repository<AccountEntity>;
 
   beforeAll(async () => {
-    await Test.createTestingModule({
-      imports: [DatabaseModule],
-    }).compile();
-
-    accountRepository = getRepository(AccountEntity);
-    loadAccountByEmailService = new LoadAccountByEmailService(accountRepository);
+    accountRepository = mock<Repository<AccountEntity>>();
+    loadAccountByEmailService = new LoadAccountByEmailService(instance(accountRepository));
   });
 
-  beforeEach(async () => {
-    await accountRepository.delete({});
-  });
+  test('should call method findOne of accountRepository', async () => {
+    const email = 'test@mail.com';
 
-  afterAll(async () => {
-    await accountRepository.delete({});
-    await getConnection().close();
+    await loadAccountByEmailService.loadAccount(email);
+
+    verify(accountRepository.findOne({email}));
   });
 
   test('should return account', async () => {
@@ -36,9 +30,9 @@ describe('LoadAccountByEmailServiceTest', () => {
       new Date('2021-05-22'),
       new Date('2021-05-22')
     );
-    await accountRepository.insert(newAccount);
+    when(accountRepository.findOne(anything())).thenResolve(newAccount);
 
-    const account = await loadAccountByEmailService.loadAccount(newAccount.email);
+    const account = await loadAccountByEmailService.loadAccount('');
 
     expect(account).toEqual(newAccount);
   });

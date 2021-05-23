@@ -1,33 +1,19 @@
-import { Test } from '@nestjs/testing';
-import { DatabaseModule } from '../../database.module';
-import { getConnection, getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AccountEntity } from '../../entities/account.entity';
 import { CreateAccountService } from '../create-account.service';
+import { capture, instance, mock } from 'ts-mockito';
 
 describe('CreateAccountServiceTest', () => {
   let createAccountService: CreateAccountService;
   let accountRepository: Repository<AccountEntity>;
 
   beforeAll(async () => {
-    await Test.createTestingModule({
-      imports: [DatabaseModule],
-    }).compile();
-
-    accountRepository = getRepository(AccountEntity);
-    createAccountService = new CreateAccountService(accountRepository);
+    accountRepository = mock<Repository<AccountEntity>>();
+    createAccountService = new CreateAccountService(instance(accountRepository));
   });
 
-  beforeEach(async () => {
-    await accountRepository.delete({});
-  });
-
-  afterAll(async () => {
-    await accountRepository.delete({});
-    await getConnection().close();
-  });
-
-  test('should create account', async () => {
-    const newAccount = new AccountEntity(
+  test('should call insert method of accountRepository', async () => {
+    const account = new AccountEntity(
       '123',
       'Test',
       'Test',
@@ -37,9 +23,9 @@ describe('CreateAccountServiceTest', () => {
       new Date('2021-05-22')
     );
 
-    await createAccountService.createAccount(newAccount);
+    await createAccountService.createAccount(account);
 
-    const account = await accountRepository.findOne(newAccount.id);
-    expect(account).toEqual(newAccount);
+    const createAccountArguments = capture(accountRepository.insert).first();
+    expect(createAccountArguments[0]).toEqual(account);
   });
 });

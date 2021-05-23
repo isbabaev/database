@@ -1,29 +1,23 @@
-import { getConnection, getRepository, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { AccountEntity } from '../../entities/account.entity';
-import { Test } from '@nestjs/testing';
-import { DatabaseModule } from '../../database.module';
 import { LoadAccountByIdService } from '../load-account-by-id.service';
+import { anything, instance, mock, verify, when } from 'ts-mockito';
 
 describe('LoadAccountByIdServiceTest', () => {
   let loadAccountByIdService: LoadAccountByIdService;
   let accountRepository: Repository<AccountEntity>;
 
   beforeAll(async () => {
-    await Test.createTestingModule({
-      imports: [DatabaseModule],
-    }).compile();
-
-    accountRepository = getRepository(AccountEntity);
-    loadAccountByIdService = new LoadAccountByIdService(accountRepository);
+    accountRepository = mock<Repository<AccountEntity>>();
+    loadAccountByIdService = new LoadAccountByIdService(instance(accountRepository));
   });
 
-  beforeEach(async () => {
-    await accountRepository.delete({});
-  });
+  test('should call method findOne of accountRepository', async () => {
+    const id = '123';
 
-  afterAll(async () => {
-    await accountRepository.delete({});
-    await getConnection().close();
+    await loadAccountByIdService.loadAccount(id);
+
+    verify(accountRepository.findOne({id}));
   });
 
   test('should return account', async () => {
@@ -36,9 +30,9 @@ describe('LoadAccountByIdServiceTest', () => {
       new Date('2021-05-22'),
       new Date('2021-05-22')
     );
-    await accountRepository.insert(newAccount);
+    when(accountRepository.findOne(anything())).thenResolve(newAccount);
 
-    const account = await loadAccountByIdService.loadAccount(newAccount.id);
+    const account = await loadAccountByIdService.loadAccount('');
 
     expect(account).toEqual(newAccount);
   });
