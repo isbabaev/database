@@ -1,6 +1,6 @@
 import { IsDate, IsString } from 'class-validator';
 
-export class CreateAccountCommand {
+export class CreateAccountDto {
   @IsString()
   id: string;
 

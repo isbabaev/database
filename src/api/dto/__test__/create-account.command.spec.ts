@@ -1,9 +1,9 @@
 import { validate } from 'class-validator';
-import { CreateAccountCommand } from '../create-account.command';
+import { CreateAccountDto } from '../create-account.dto';
 
 describe('CreateAccountCommandTest', () => {
   test('validate should not return any errors', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       'Test',
       'Test',
@@ -19,7 +19,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when id is not string', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       {} as any,
       'Test',
       'Test',
@@ -35,7 +35,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when firstName is not string', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       {} as any,
       'Test',
@@ -51,7 +51,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when lastName is not string', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       'Test',
       {} as any,
@@ -67,7 +67,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when email is not string', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       'Test',
       'Test',
@@ -83,7 +83,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when password is not string', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       'Test',
       'Test',
@@ -99,7 +99,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when createdAt is not Date', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       'Test',
       'Test',
@@ -115,7 +115,7 @@ describe('CreateAccountCommandTest', () => {
   });
 
   test('validate should return error when updatedAt is not Date', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountCommand = new CreateAccountDto(
       '793bbc61-e5d9-476b-b40c-26e9ef33e871',
       'Test',
       'Test',

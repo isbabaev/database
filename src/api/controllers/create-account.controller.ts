@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@nestjs/common';
-import { CreateAccountCommand } from '../ports/in/create-account/create-account.command';
+import { CreateAccountDto } from '../dto/create-account.dto';
 import { MessagePattern } from '@nestjs/microservices';
 import { CreateAccountUseCaseSymbol, ICreateAccountUseCase } from '../../database/ports/in/create-account.use-case';
 import { AccountEntity } from '../../database/entities/account.entity';
@@ -11,9 +11,9 @@ export class CreateAccountController implements ICreateAccountUseCase {
   }
 
   @MessagePattern('create-account')
-  createAccount(command: CreateAccountCommand): Promise<void> {
+  createAccount(command: CreateAccountDto): Promise<void> {
     const {id, firstName, lastName, email, password, createdAt, updatedAt} = command;
     const account = new AccountEntity(id, firstName, lastName, email, password, createdAt, updatedAt);
-    return this.createAccountUseCase.createAccount(account); // TODO зависимость идет не туда
+    return this.createAccountUseCase.createAccount(account);
   }
 }

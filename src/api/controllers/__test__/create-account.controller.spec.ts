@@ -1,7 +1,7 @@
 import { capture, instance, mock } from 'ts-mockito';
 import { CreateAccountController } from '../create-account.controller';
 import { ICreateAccountUseCase } from '../../ports/out/create-account.port';
-import { CreateAccountCommand } from '../../ports/in/create-account/create-account.command';
+import { CreateAccountDto } from '../../dto/create-account.dto';
 
 describe('CreateAccountControllerTest', () => {
   let createAccountController: CreateAccountController;
@@ -13,7 +13,7 @@ describe('CreateAccountControllerTest', () => {
   });
 
   test('should call createAccount method of createAccountUseCase', async () => {
-    const createAccountCommand = new CreateAccountCommand(
+    const createAccountData = new CreateAccountDto(
       '123',
       'Test',
       'Test',
@@ -23,9 +23,9 @@ describe('CreateAccountControllerTest', () => {
       new Date('2021-05-22'),
     );
 
-    await createAccountController.createAccount(createAccountCommand);
+    await createAccountController.createAccount(createAccountData);
 
     const createAccountArguments = capture(createAccountUseCase.createAccount).first();
-    expect(createAccountArguments[0]).toEqual(createAccountCommand);
+    expect(createAccountArguments[0]).toEqual(createAccountData);
   });
 });
