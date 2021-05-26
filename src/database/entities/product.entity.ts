@@ -3,16 +3,15 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
+  JoinColumn, PrimaryColumn,
 } from 'typeorm';
 import { AccountEntity } from './account.entity';
 
 @Entity('products')
 export class ProductEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   name: string;

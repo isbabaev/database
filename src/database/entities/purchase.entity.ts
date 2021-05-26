@@ -4,17 +4,16 @@ import {
   Entity,
   ManyToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
+  JoinColumn, PrimaryColumn,
 } from 'typeorm';
 import { ProductEntity } from './product.entity';
 import { AccountEntity } from './account.entity';
 
 @Entity('purchases')
 export class PurchaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @ManyToMany(() => ProductEntity)
   products: ProductEntity[];
