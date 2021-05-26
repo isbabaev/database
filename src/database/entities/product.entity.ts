@@ -19,11 +19,14 @@ export class ProductEntity {
   @Column()
   description: string;
 
-  @Column('text', { array: true, name: 'photo_urls' })
-  photoUrls: string[];
+  @Column('text', { array: true, name: 'photo_uris' })
+  photoUris: string[];
 
   @Column()
   price: number;
+
+  @JoinColumn({name: 'seller_id'})
+  sellerId: string;
 
   @ManyToOne(() => AccountEntity)
   @JoinColumn({ name: 'seller_id' })
