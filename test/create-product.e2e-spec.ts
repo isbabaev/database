@@ -1,16 +1,16 @@
 import { ClientProxy, ClientProxyFactory } from '@nestjs/microservices';
-import { Test } from '@nestjs/testing';
-import { appConnectionOptionsFactory } from '../src/app-connection-options.factory';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { INestMicroservice, ValidationPipe } from '@nestjs/common';
 import { getRepository, Repository } from 'typeorm';
-import { AccountEntity } from '../src/database/entities/account.entity';
-import { CreateAccountDto } from '../src/api/dto/create-account.dto';
+import { ProductEntity } from '../src/database/entities/product.entity';
+import { Test } from '@nestjs/testing';
 import { ApiModule } from '../src/api/api.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { appConnectionOptionsFactory } from '../src/app-connection-options.factory';
+import { CreateProductDto } from '../src/api/dto/create-product.dto';
 
-describe('CreateAccountControllerE2eTest', () => { // TODO remove e2e
+describe('CreateProductE2eTest', () => {
   let clientProxy: ClientProxy;
-  let accountRepository: Repository<AccountEntity>;
+  let productRepository: Repository<ProductEntity>;
   let app: INestMicroservice;
 
   beforeAll(async () => {
@@ -32,33 +32,34 @@ describe('CreateAccountControllerE2eTest', () => { // TODO remove e2e
     app.useGlobalPipes(new ValidationPipe());
     await app.listenAsync();
 
-    accountRepository = getRepository(AccountEntity);
+    productRepository = getRepository(ProductEntity);
     clientProxy = moduleRef.get(DatabaseClientProxySymbol);
   });
 
   beforeEach(async () => {
-    await accountRepository.delete({});
+    await productRepository.delete({});
   });
 
   afterAll(async () => {
-    await accountRepository.delete({});
+    await productRepository.delete({});
     await app.close();
   });
 
-  test('should create account', async () => {
-    const createAccountData = new CreateAccountDto(
+  test('should create product', async () => {
+    const createProductData = new CreateProductDto(
       '123',
-      'Test',
-      'Test',
-      'test@mail.com',
-      'password',
+      'ProductName',
+      'ProductDescription',
+      ['http://localhost:3000/photo'],
+      100.50,
+      '123',
       new Date('2021-05-22'),
       new Date('2021-05-22'),
     );
 
-    await clientProxy.send('create-account', createAccountData).toPromise();
+    await clientProxy.send('create-product', createProductData).toPromise();
 
-    const account = await accountRepository.findOne(createAccountData.id);
-    expect(account).toEqual(createAccountData);
+    const product = await productRepository.findOne(createProductData.id);
+    expect(product).toEqual(createProductData);
   });
 });

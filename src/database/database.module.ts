@@ -9,6 +9,8 @@ import { LoadAccountByEmailUseCaseSymbol } from './ports/in/load-account-by-emai
 import { LoadAccountByEmailService } from './services/load-account-by-email.service';
 import { LoadAccountByIdUseCaseSymbol } from './ports/in/load-account-by-id.use-case';
 import { LoadAccountByIdService } from './services/load-account-by-id.service';
+import { CreateProductUseCaseSymbol } from './ports/in/create-product.use-case';
+import { CreateProductService } from './services/create-product.service';
 
 const providers: ClassProvider[] = [
   {
@@ -22,6 +24,10 @@ const providers: ClassProvider[] = [
   {
     provide: LoadAccountByIdUseCaseSymbol,
     useClass: LoadAccountByIdService,
+  },
+  {
+    provide: CreateProductUseCaseSymbol,
+    useClass: CreateProductService,
   },
 ];
 

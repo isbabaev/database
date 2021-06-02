@@ -7,6 +7,7 @@ import {
   JoinColumn, PrimaryColumn,
 } from 'typeorm';
 import { AccountEntity } from './account.entity';
+import { ColumnNumericTransformer } from '../transformers/numeric.transformer';
 
 @Entity('products')
 export class ProductEntity {
@@ -22,7 +23,11 @@ export class ProductEntity {
   @Column('text', { array: true, name: 'photo_uris' })
   photoUris: string[];
 
-  @Column()
+  @Column('numeric', {
+    precision: 12,
+    scale: 2,
+    transformer: new ColumnNumericTransformer()
+  })
   price: number;
 
   @JoinColumn({name: 'seller_id'})
@@ -37,4 +42,22 @@ export class ProductEntity {
 
   @UpdateDateColumn({name: 'updated_at'})
   updatedAt: Date;
+
+  constructor(id: string,
+              name: string,
+              description: string,
+              photoUrls: string[],
+              price: number,
+              sellerId: string,
+              createdAt: Date,
+              updatedAt: Date) {
+    this.id = id;
+    this.name = name;
+    this.description = description;
+    this.photoUris = photoUrls;
+    this.price = price;
+    this.sellerId = sellerId;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
 }
