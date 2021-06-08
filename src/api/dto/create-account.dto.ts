@@ -1,4 +1,4 @@
-import { IsDate, IsString } from 'class-validator';
+import { IsDate, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import "reflect-metadata";
 
@@ -16,7 +16,8 @@ export class CreateAccountDto {
   email: string;
 
   @IsString()
-  password: string;
+  @IsOptional()
+  password: string | null;
 
   @IsDate()
   @Type(() => Date)
@@ -30,7 +31,7 @@ export class CreateAccountDto {
               firstName: string,
               lastName: string,
               email: string,
-              password: string,
+              password: string | null,
               createdAt: Date,
               updatedAt: Date) {
     this.id = id;

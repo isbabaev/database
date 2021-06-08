@@ -22,7 +22,7 @@ export class AccountEntity {
   @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Column({nullable: true})
   password: string;
 
   @OneToMany(() => ProductEntity, product => product.id)

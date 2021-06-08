@@ -5,7 +5,7 @@ import { CreateAccountUseCaseSymbol, ICreateAccountUseCase } from '../../databas
 import { AccountEntity } from '../../database/entities/account.entity';
 
 @Controller()
-export class CreateAccountController implements ICreateAccountUseCase {
+export class CreateAccountController {
   constructor(@Inject(CreateAccountUseCaseSymbol)
               private readonly createAccountUseCase: ICreateAccountUseCase) {
   }
